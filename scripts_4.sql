@@ -11,6 +11,11 @@ SHOW TABLES;
 -- users
 SELECT * FROM users LIMIT 100;
 -- структура верная
+ALTER TABLE users ADD COLUMN is_banned BOOLEAN AFTER phone;
+ALTER TABLE users ADD COLUMN is_active BOOLEAN DEFAULT  TRUE AFTER is_banned;
+
+UPDATE users SET is_banned = TRUE WHERE id IN (12, 56, 66, 83);
+UPDATE users SET is_active = FALSE WHERE id IN (8, 32, 77, 98);
 
 -- profiles
 SELECT * FROM profiles LIMIT 100;
@@ -88,7 +93,7 @@ INSERT INTO `friendship_statuses` (`id`, `name`) VALUES (2, 'friend');
 INSERT INTO `friendship_statuses` (`id`, `name`) VALUES (3, 'relative');
 INSERT INTO `friendship_statuses` (`id`, `name`) VALUES (4, 'colleague');
 INSERT INTO `friendship_statuses` (`id`, `name`) VALUES (5, 'classmate');
-
+INSERT INTO friendship_statuses VALUES (DEFAULT, "Rejected");
 
 -- friendship
 SELECT * FROM friendship LIMIT 100;
@@ -110,11 +115,46 @@ WHERE status_id = 0;
 
  -- communities
 SELECT * FROM communities LIMIT 10;
--- структура верная
+ALTER TABLE communities ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER name;
+ALTER TABLE communities ADD COLUMN is_closed BOOLEAN AFTER created_at;
+ALTER TABLE communities ADD COLUMN closed_at TIMESTAMP AFTER is_closed;
+
+UPDATE communities SET is_closed = TRUE WHERE id IN (3, 14, 27, 56);
+UPDATE communities SET closed_at = NOW() WHERE is_closed IS TRUE;
 
 -- communities_users
 SELECT * FROM communities_users LIMIT 100;
--- структура верная
+
+
+CREATE TABLE relations (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id INT UNSIGNED NOT NULL,
+  relative_id INT UNSIGNED NOT NULL,
+  relation_status_id INT UNSIGNED NOT NULL
+);
+
+CREATE TABLE relation_statuses (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100)
+);
+
+INSERT INTO relation_statuses (name) VALUES 
+  ('son'),
+  ('daughter'),
+  ('mother'),
+  ('father'),
+  ('wife'),
+  ('husband')
+;
+
+INSERT INTO relations 
+  SELECT 
+    id, 
+    FLOOR(1 + (RAND() * 100)), 
+    FLOOR(1 + (RAND() * 100)),
+    FLOOR(1 + (RAND() * 6)) 
+  FROM users;
+
 
 
 -- Подобрать сервис-образец для курсовой работы
