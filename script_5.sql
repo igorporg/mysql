@@ -1,4 +1,4 @@
--- Ñîçäàåì äóáëèêàò òàáëè÷êè users
+-- Ð¡Ð¾Ð·Ð´Ð°ÐµÐ¼ Ð´ÑƒÐ±Ð»Ð¸ÐºÐ°Ñ‚ Ñ‚Ð°Ð±Ð»Ð¸Ñ‡ÐºÐ¸ users
 CREATE TABLE users_1 (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,  
   first_name VARCHAR(100) NOT NULL,
@@ -10,75 +10,75 @@ CREATE TABLE users_1 (
   created_at VARCHAR(64) NOT NULL,
   updated_at VARCHAR(64) NOT NULL
 );
--- âñòàâëÿåì äàííûå èç users
+-- Ð²ÑÑ‚Ð°Ð²Ð»ÑÐµÐ¼ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð¸Ð· users
 INSERT INTO users_1 SELECT * FROM users;
 
 SELECT first_name, last_name, created_at, updated_at FROM users_1;
 
--- àïäåéòèì ïîëÿ created_at è updated_at òåêóùåé äàòîé è âðåìåíåì
+-- Ð°Ð¿Ð´ÐµÐ¹Ñ‚Ð¸Ð¼ Ð¿Ð¾Ð»Ñ created_at Ð¸ updated_at Ñ‚ÐµÐºÑƒÑ‰ÐµÐ¹ Ð´Ð°Ñ‚Ð¾Ð¹ Ð¸ Ð²Ñ€ÐµÐ¼ÐµÐ½ÐµÐ¼
 UPDATE users_1 SET created_at = NOW(), updated_at = NOW();
 
--- ìåíÿåì ïîëÿ íà òèï  DATETIME
+-- Ð¼ÐµÐ½ÑÐµÐ¼ Ð¿Ð¾Ð»Ñ Ð½Ð° Ñ‚Ð¸Ð¿  DATETIME
 ALTER TABLE users_1 MODIFY COLUMN created_at DATETIME NOT NULL;
 ALTER TABLE users_1 MODIFY COLUMN updated_at DATETIME NOT NULL;
 
 
--- Ñîçäàåì áàçó shop è çàëèâàåì òàáëèöû
+-- Ð¡Ð¾Ð·Ð´Ð°ÐµÐ¼ Ð±Ð°Ð·Ñƒ shop Ð¸ Ð·Ð°Ð»Ð¸Ð²Ð°ÐµÐ¼ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹
 CREATE DATABASE shop;
 
 DROP TABLE IF EXISTS catalogs;
 CREATE TABLE catalogs (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(255) COMMENT 'Íàçâàíèå ðàçäåëà',
+  name VARCHAR(255) COMMENT 'ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ Ñ€Ð°Ð·Ð´ÐµÐ»Ð°',
   UNIQUE unique_name(name(10))
-) COMMENT = 'Ðàçäåëû èíòåðíåò-ìàãàçèíà';
+) COMMENT = 'Ð Ð°Ð·Ð´ÐµÐ»Ñ‹ Ð¸Ð½Ñ‚ÐµÑ€Ð½ÐµÑ‚-Ð¼Ð°Ð³Ð°Ð·Ð¸Ð½Ð°';
 
 INSERT INTO catalogs VALUES
-  (NULL, 'Ïðîöåññîðû'),
-  (NULL, 'Ìàòåðèíñêèå ïëàòû'),
-  (NULL, 'Âèäåîêàðòû'),
-  (NULL, 'Æåñòêèå äèñêè'),
-  (NULL, 'Îïåðàòèâíàÿ ïàìÿòü');
+  (NULL, 'ÐŸÑ€Ð¾Ñ†ÐµÑÑÐ¾Ñ€Ñ‹'),
+  (NULL, 'ÐœÐ°Ñ‚ÐµÑ€Ð¸Ð½ÑÐºÐ¸Ðµ Ð¿Ð»Ð°Ñ‚Ñ‹'),
+  (NULL, 'Ð’Ð¸Ð´ÐµÐ¾ÐºÐ°Ñ€Ñ‚Ñ‹'),
+  (NULL, 'Ð–ÐµÑÑ‚ÐºÐ¸Ðµ Ð´Ð¸ÑÐºÐ¸'),
+  (NULL, 'ÐžÐ¿ÐµÑ€Ð°Ñ‚Ð¸Ð²Ð½Ð°Ñ Ð¿Ð°Ð¼ÑÑ‚ÑŒ');
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(255) COMMENT 'Èìÿ ïîêóïàòåëÿ',
-  birthday_at DATE COMMENT 'Äàòà ðîæäåíèÿ',
+  name VARCHAR(255) COMMENT 'Ð˜Ð¼Ñ Ð¿Ð¾ÐºÑƒÐ¿Ð°Ñ‚ÐµÐ»Ñ',
+  birthday_at DATE COMMENT 'Ð”Ð°Ñ‚Ð° Ñ€Ð¾Ð¶Ð´ÐµÐ½Ð¸Ñ',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) COMMENT = 'Ïîêóïàòåëè';
+) COMMENT = 'ÐŸÐ¾ÐºÑƒÐ¿Ð°Ñ‚ÐµÐ»Ð¸';
 
 INSERT INTO users (name, birthday_at) VALUES
-  ('Ãåííàäèé', '1990-10-05'),
-  ('Íàòàëüÿ', '1984-11-12'),
-  ('Àëåêñàíäð', '1985-05-20'),
-  ('Ñåðãåé', '1988-02-14'),
-  ('Èâàí', '1998-01-12'),
-  ('Ìàðèÿ', '1992-08-29');
+  ('Ð“ÐµÐ½Ð½Ð°Ð´Ð¸Ð¹', '1990-10-05'),
+  ('ÐÐ°Ñ‚Ð°Ð»ÑŒÑ', '1984-11-12'),
+  ('ÐÐ»ÐµÐºÑÐ°Ð½Ð´Ñ€', '1985-05-20'),
+  ('Ð¡ÐµÑ€Ð³ÐµÐ¹', '1988-02-14'),
+  ('Ð˜Ð²Ð°Ð½', '1998-01-12'),
+  ('ÐœÐ°Ñ€Ð¸Ñ', '1992-08-29');
 
 DROP TABLE IF EXISTS products;
 CREATE TABLE products (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(255) COMMENT 'Íàçâàíèå',
-  description TEXT COMMENT 'Îïèñàíèå',
-  price DECIMAL (11,2) COMMENT 'Öåíà',
+  name VARCHAR(255) COMMENT 'ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ',
+  description TEXT COMMENT 'ÐžÐ¿Ð¸ÑÐ°Ð½Ð¸Ðµ',
+  price DECIMAL (11,2) COMMENT 'Ð¦ÐµÐ½Ð°',
   catalog_id INT UNSIGNED,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   KEY index_of_catalog_id (catalog_id)
-) COMMENT = 'Òîâàðíûå ïîçèöèè';
+) COMMENT = 'Ð¢Ð¾Ð²Ð°Ñ€Ð½Ñ‹Ðµ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¸';
 
 INSERT INTO products
   (name, description, price, catalog_id)
 VALUES
-  ('Intel Core i3-8100', 'Ïðîöåññîð äëÿ íàñòîëüíûõ ïåðñîíàëüíûõ êîìïüþòåðîâ, îñíîâàííûõ íà ïëàòôîðìå Intel.', 7890.00, 1),
-  ('Intel Core i5-7400', 'Ïðîöåññîð äëÿ íàñòîëüíûõ ïåðñîíàëüíûõ êîìïüþòåðîâ, îñíîâàííûõ íà ïëàòôîðìå Intel.', 12700.00, 1),
-  ('AMD FX-8320E', 'Ïðîöåññîð äëÿ íàñòîëüíûõ ïåðñîíàëüíûõ êîìïüþòåðîâ, îñíîâàííûõ íà ïëàòôîðìå AMD.', 4780.00, 1),
-  ('AMD FX-8320', 'Ïðîöåññîð äëÿ íàñòîëüíûõ ïåðñîíàëüíûõ êîìïüþòåðîâ, îñíîâàííûõ íà ïëàòôîðìå AMD.', 7120.00, 1),
-  ('ASUS ROG MAXIMUS X HERO', 'Ìàòåðèíñêàÿ ïëàòà ASUS ROG MAXIMUS X HERO, Z370, Socket 1151-V2, DDR4, ATX', 19310.00, 2),
-  ('Gigabyte H310M S2H', 'Ìàòåðèíñêàÿ ïëàòà Gigabyte H310M S2H, H310, Socket 1151-V2, DDR4, mATX', 4790.00, 2),
-  ('MSI B250M GAMING PRO', 'Ìàòåðèíñêàÿ ïëàòà MSI B250M GAMING PRO, B250, Socket 1151, DDR4, mATX', 5060.00, 2);
+  ('Intel Core i3-8100', 'ÐŸÑ€Ð¾Ñ†ÐµÑÑÐ¾Ñ€ Ð´Ð»Ñ Ð½Ð°ÑÑ‚Ð¾Ð»ÑŒÐ½Ñ‹Ñ… Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… ÐºÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð¾Ð², Ð¾ÑÐ½Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ð½Ð° Ð¿Ð»Ð°Ñ‚Ñ„Ð¾Ñ€Ð¼Ðµ Intel.', 7890.00, 1),
+  ('Intel Core i5-7400', 'ÐŸÑ€Ð¾Ñ†ÐµÑÑÐ¾Ñ€ Ð´Ð»Ñ Ð½Ð°ÑÑ‚Ð¾Ð»ÑŒÐ½Ñ‹Ñ… Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… ÐºÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð¾Ð², Ð¾ÑÐ½Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ð½Ð° Ð¿Ð»Ð°Ñ‚Ñ„Ð¾Ñ€Ð¼Ðµ Intel.', 12700.00, 1),
+  ('AMD FX-8320E', 'ÐŸÑ€Ð¾Ñ†ÐµÑÑÐ¾Ñ€ Ð´Ð»Ñ Ð½Ð°ÑÑ‚Ð¾Ð»ÑŒÐ½Ñ‹Ñ… Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… ÐºÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð¾Ð², Ð¾ÑÐ½Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ð½Ð° Ð¿Ð»Ð°Ñ‚Ñ„Ð¾Ñ€Ð¼Ðµ AMD.', 4780.00, 1),
+  ('AMD FX-8320', 'ÐŸÑ€Ð¾Ñ†ÐµÑÑÐ¾Ñ€ Ð´Ð»Ñ Ð½Ð°ÑÑ‚Ð¾Ð»ÑŒÐ½Ñ‹Ñ… Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… ÐºÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð¾Ð², Ð¾ÑÐ½Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ð½Ð° Ð¿Ð»Ð°Ñ‚Ñ„Ð¾Ñ€Ð¼Ðµ AMD.', 7120.00, 1),
+  ('ASUS ROG MAXIMUS X HERO', 'ÐœÐ°Ñ‚ÐµÑ€Ð¸Ð½ÑÐºÐ°Ñ Ð¿Ð»Ð°Ñ‚Ð° ASUS ROG MAXIMUS X HERO, Z370, Socket 1151-V2, DDR4, ATX', 19310.00, 2),
+  ('Gigabyte H310M S2H', 'ÐœÐ°Ñ‚ÐµÑ€Ð¸Ð½ÑÐºÐ°Ñ Ð¿Ð»Ð°Ñ‚Ð° Gigabyte H310M S2H, H310, Socket 1151-V2, DDR4, mATX', 4790.00, 2),
+  ('MSI B250M GAMING PRO', 'ÐœÐ°Ñ‚ÐµÑ€Ð¸Ð½ÑÐºÐ°Ñ Ð¿Ð»Ð°Ñ‚Ð° MSI B250M GAMING PRO, B250, Socket 1151, DDR4, mATX', 5060.00, 2);
 
 DROP TABLE IF EXISTS orders;
 CREATE TABLE orders (
@@ -87,52 +87,52 @@ CREATE TABLE orders (
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   KEY index_of_user_id(user_id)
-) COMMENT = 'Çàêàçû';
+) COMMENT = 'Ð—Ð°ÐºÐ°Ð·Ñ‹';
 
 DROP TABLE IF EXISTS orders_products;
 CREATE TABLE orders_products (
   id SERIAL PRIMARY KEY,
   order_id INT UNSIGNED,
   product_id INT UNSIGNED,
-  total INT UNSIGNED DEFAULT 1 COMMENT 'Êîëè÷åñòâî çàêàçàííûõ òîâàðíûõ ïîçèöèé',
+  total INT UNSIGNED DEFAULT 1 COMMENT 'ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð·Ð°ÐºÐ°Ð·Ð°Ð½Ð½Ñ‹Ñ… Ñ‚Ð¾Ð²Ð°Ñ€Ð½Ñ‹Ñ… Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¹',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) COMMENT = 'Ñîñòàâ çàêàçà';
+) COMMENT = 'Ð¡Ð¾ÑÑ‚Ð°Ð² Ð·Ð°ÐºÐ°Ð·Ð°';
 
 DROP TABLE IF EXISTS discounts;
 CREATE TABLE discounts (
   id SERIAL PRIMARY KEY,
   user_id INT UNSIGNED,
   product_id INT UNSIGNED,
-  discount FLOAT UNSIGNED COMMENT 'Âåëè÷èíà ñêèäêè îò 0.0 äî 1.0',
+  discount FLOAT UNSIGNED COMMENT 'Ð’ÐµÐ»Ð¸Ñ‡Ð¸Ð½Ð° ÑÐºÐ¸Ð´ÐºÐ¸ Ð¾Ñ‚ 0.0 Ð´Ð¾ 1.0',
   started_at DATETIME,
   finished_at DATETIME,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   KEY index_of_user_id(user_id),
   KEY index_of_product_id(product_id)
-) COMMENT = 'Ñêèäêè';
+) COMMENT = 'Ð¡ÐºÐ¸Ð´ÐºÐ¸';
 
 DROP TABLE IF EXISTS storehouses;
 CREATE TABLE storehouses (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(255) COMMENT 'Íàçâàíèå',
+  name VARCHAR(255) COMMENT 'ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) COMMENT = 'Ñêëàäû';
+) COMMENT = 'Ð¡ÐºÐ»Ð°Ð´Ñ‹';
 
 DROP TABLE IF EXISTS storehouses_products;
 CREATE TABLE storehouses_products (
   id SERIAL PRIMARY KEY,
   storehouse_id INT UNSIGNED,
   product_id INT UNSIGNED,
-  value INT UNSIGNED COMMENT 'Çàïàñ òîâàðíîé ïîçèöèè íà ñêëàäå',
+  value INT UNSIGNED COMMENT 'Ð—Ð°Ð¿Ð°Ñ Ñ‚Ð¾Ð²Ð°Ñ€Ð½Ð¾Ð¹ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¸ Ð½Ð° ÑÐºÐ»Ð°Ð´Ðµ',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) COMMENT = 'Çàïàñû íà ñêëàäå';
+) COMMENT = 'Ð—Ð°Ð¿Ð°ÑÑ‹ Ð½Ð° ÑÐºÐ»Ð°Ð´Ðµ';
 
 
--- Íàïîëíÿåì òàáëèöû storehouses è storehouses_products ñãåíåðèðîâàííûìè äàííûìè
+-- ÐÐ°Ð¿Ð¾Ð»Ð½ÑÐµÐ¼ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹ storehouses Ð¸ storehouses_products ÑÐ³ÐµÐ½ÐµÑ€Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼Ð¸ Ð´Ð°Ð½Ð½Ñ‹Ð¼Ð¸
 
 INSERT INTO `storehouses` (`id`, `name`, `created_at`, `updated_at`) VALUES ('1', 'sklad_1', '1989-04-08 19:22:21', '1993-07-13 21:28:06');
 INSERT INTO `storehouses` (`id`, `name`, `created_at`, `updated_at`) VALUES ('2', 'sklad_2', '1982-10-25 07:58:47', '1983-07-15 09:13:57');
@@ -189,26 +189,26 @@ INSERT INTO `storehouses_products` (`id`, `storehouse_id`, `product_id`, `value`
 INSERT INTO `storehouses_products` (`id`, `storehouse_id`, `product_id`, `value`, `created_at`, `updated_at`) VALUES ('199', 4, 5, 0, '1981-12-03 14:39:42', '2014-01-05 12:57:10');
 INSERT INTO `storehouses_products` (`id`, `storehouse_id`, `product_id`, `value`, `created_at`, `updated_at`) VALUES ('200', 5, 2, 20, '1989-05-07 21:58:39', '2015-06-24 04:30:17');
 
--- âûòàñêèâàåì èç òàáëèöû storehouses_products òîâàðû, îòñîðòèðîâàííûå ïî ïîëþ value ñ äîáàâëåíèåì â êîíåö ñïèñêà òîâàðîâ ñî çíà÷åíèåì value = 0
+-- Ð²Ñ‹Ñ‚Ð°ÑÐºÐ¸Ð²Ð°ÐµÐ¼ Ð¸Ð· Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹ storehouses_products Ñ‚Ð¾Ð²Ð°Ñ€Ñ‹, Ð¾Ñ‚ÑÐ¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ð¿Ð¾ Ð¿Ð¾Ð»ÑŽ value Ñ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸ÐµÐ¼ Ð² ÐºÐ¾Ð½ÐµÑ† ÑÐ¿Ð¸ÑÐºÐ° Ñ‚Ð¾Ð²Ð°Ñ€Ð¾Ð² ÑÐ¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸ÐµÐ¼ value = 0
 
--- Âàðèàíò ñ ïðîìåæóòî÷íîé òàáëèöåé
+-- Ð’Ð°Ñ€Ð¸Ð°Ð½Ñ‚ Ñ Ð¿Ñ€Ð¾Ð¼ÐµÐ¶ÑƒÑ‚Ð¾Ñ‡Ð½Ð¾Ð¹ Ñ‚Ð°Ð±Ð»Ð¸Ñ†ÐµÐ¹
 CREATE TABLE storehouses_products_temp (
   storehouse_id INT UNSIGNED,
   product_id INT UNSIGNED,
-  value INT UNSIGNED COMMENT 'Çàïàñ òîâàðíîé ïîçèöèè íà ñêëàäå'
-) COMMENT = 'Âñïîìîãàòåëüíàÿ òàáëèöà';
+  value INT UNSIGNED COMMENT 'Ð—Ð°Ð¿Ð°Ñ Ñ‚Ð¾Ð²Ð°Ñ€Ð½Ð¾Ð¹ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¸ Ð½Ð° ÑÐºÐ»Ð°Ð´Ðµ'
+) COMMENT = 'Ð’ÑÐ¿Ð¾Ð¼Ð¾Ð³Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð°Ñ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ð°';
 
 INSERT INTO storehouses_products_temp SELECT storehouse_id, product_id, value FROM storehouses_products GROUP BY storehouse_id, product_id, value HAVING value > 0 ORDER BY value;
 INSERT INTO storehouses_products_temp SELECT storehouse_id, product_id, value FROM storehouses_products GROUP BY storehouse_id, product_id, value HAVING value = 0;
 SELECT * FROM storehouses_products_temp;
 
--- Âàðèàíò ñ UNION
--- ïðîñòîé âàðèàíò
+-- Ð’Ð°Ñ€Ð¸Ð°Ð½Ñ‚ Ñ UNION
+-- Ð¿Ñ€Ð¾ÑÑ‚Ð¾Ð¹ Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚
 (SELECT * FROM storehouses_products WHERE value > 0  ORDER BY value LIMIT 100)
 UNION
 (SELECT * FROM storehouses_products WHERE value = 0  ORDER BY value LIMIT 10);
 
--- âàðèàíò ïîñëîæíåå (ïî÷åìóòî íå ñðàáàòûâàåò ñîðòèðîâêà ñ ïåðâûì ñåëåêòîì, åñëè áåç union òî âñå íîðìàëüíî)
+-- Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚ Ð¿Ð¾ÑÐ»Ð¾Ð¶Ð½ÐµÐµ (Ð¿Ð¾Ñ‡ÐµÐ¼ÑƒÑ‚Ð¾ Ð½Ðµ ÑÑ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°ÐµÑ‚ ÑÐ¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²ÐºÐ° Ñ Ð¿ÐµÑ€Ð²Ñ‹Ð¼ ÑÐµÐ»ÐµÐºÑ‚Ð¾Ð¼, ÐµÑÐ»Ð¸ Ð±ÐµÐ· union Ñ‚Ð¾ Ð²ÑÐµ Ð½Ð¾Ñ€Ð¼Ð°Ð»ÑŒÐ½Ð¾)
 SELECT SH.name, P.name, SP.value FROM storehouses_products AS SP, storehouses AS SH, products AS P  WHERE SP.storehouse_id = SH.id AND SP.product_id = P.id AND SP.value > 0  ORDER BY value;
 
 (SELECT SH.name, P.name, SP.value FROM storehouses_products AS SP, storehouses AS SH, products AS P  WHERE SP.storehouse_id = SH.id AND SP.product_id = P.id AND SP.value > 0  ORDER BY value)
