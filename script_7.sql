@@ -1,35 +1,35 @@
--- Просмотрим задействованные в запросе таблицы
+-- РџСЂРѕСЃРјРѕС‚СЂРёРј Р·Р°РґРµР№СЃС‚РІРѕРІР°РЅРЅС‹Рµ РІ Р·Р°РїСЂРѕСЃРµ С‚Р°Р±Р»РёС†С‹
 SELECT * FROM users;
 SELECT * FROM orders;
 SELECT * FROM orders_products;
 SELECT * FROM products;
 SELECT * FROM catalogs;
 
--- Добавим пару юзеров не имеющих ни одного заказа
+-- Р”РѕР±Р°РІРёРј РїР°СЂСѓ СЋР·РµСЂРѕРІ РЅРµ РёРјРµСЋС‰РёС… РЅРё РѕРґРЅРѕРіРѕ Р·Р°РєР°Р·Р°
 INSERT INTO users (name, birthday_at) VALUES
-  ('Андрей', '1999-10-05'),
-  ('Полина', '1988-11-12')
+  ('РђРЅРґСЂРµР№', '1999-10-05'),
+  ('РџРѕР»РёРЅР°', '1988-11-12')
 
--- вытащим всех пользователей попавших в таблицу orders
+-- РІС‹С‚Р°С‰РёРј РІСЃРµС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ РїРѕРїР°РІС€РёС… РІ С‚Р°Р±Р»РёС†Сѓ orders
 SELECT id, name FROM users WHERE id IN (SELECT user_id FROM orders);
 
--- либо
+-- Р»РёР±Рѕ
 SELECT DISTINCT users.id , users.name FROM users, orders WHERE users.id = orders.user_id;
 
--- вытащим количество заказов для каждого пользователя
+-- РІС‹С‚Р°С‰РёРј РєРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°РєР°Р·РѕРІ РґР»СЏ РєР°Р¶РґРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 SELECT id, name, (SELECT COUNT(*) FROM orders WHERE user_id = users.id) AS total_orders FROM users WHERE id IN (SELECT user_id FROM orders);
 
--- Выведите список товаров products и разделов catalogs, который соответствует товару.
+-- Р’С‹РІРµРґРёС‚Рµ СЃРїРёСЃРѕРє С‚РѕРІР°СЂРѕРІ products Рё СЂР°Р·РґРµР»РѕРІ catalogs, РєРѕС‚РѕСЂС‹Р№ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ С‚РѕРІР°СЂСѓ.
 SELECT id, name, (SELECT name FROM catalogs WHERE id = products.catalog_id) AS catalog_name FROM products;
 
--- либо
+-- Р»РёР±Рѕ
 SELECT p.id, p.name, c.name FROM products p, catalogs c WHERE p.catalog_id = c.id;
--- или
+-- РёР»Рё
 SELECT p.id, p.name, c.name FROM products p JOIN catalogs c ON p.catalog_id = c.id;
 
 
--- Пусть имеется таблица рейсов flights (id, from, to) и таблица городов cities (label, name). 
--- Поля from, to и label содержат английские названия городов, поле name — русское. Выведите список рейсов flights с русскими названиями городов.
+-- РџСѓСЃС‚СЊ РёРјРµРµС‚СЃСЏ С‚Р°Р±Р»РёС†Р° СЂРµР№СЃРѕРІ flights (id, from, to) Рё С‚Р°Р±Р»РёС†Р° РіРѕСЂРѕРґРѕРІ cities (label, name). 
+-- РџРѕР»СЏ from, to Рё label СЃРѕРґРµСЂР¶Р°С‚ Р°РЅРіР»РёР№СЃРєРёРµ РЅР°Р·РІР°РЅРёСЏ РіРѕСЂРѕРґРѕРІ, РїРѕР»Рµ name вЂ” СЂСѓСЃСЃРєРѕРµ. Р’С‹РІРµРґРёС‚Рµ СЃРїРёСЃРѕРє СЂРµР№СЃРѕРІ flights СЃ СЂСѓСЃСЃРєРёРјРё РЅР°Р·РІР°РЅРёСЏРјРё РіРѕСЂРѕРґРѕРІ.
 
 CREATE TABLE flights (
   id SERIAL PRIMARY KEY,
@@ -51,13 +51,13 @@ INSERT INTO flights (from_city, to_city) VALUES
 );
 
 INSERT INTO cities (label, name) VALUES
-  ('Moscow', 'Москва'),
-  ('Omsk', 'Омск'),
-  ('Novgorod', 'Новгород'),
-  ('Irkutsk', 'Иркутск'),
-  ('Kazan', 'Казань');
+  ('Moscow', 'РњРѕСЃРєРІР°'),
+  ('Omsk', 'РћРјСЃРє'),
+  ('Novgorod', 'РќРѕРІРіРѕСЂРѕРґ'),
+  ('Irkutsk', 'РСЂРєСѓС‚СЃРє'),
+  ('Kazan', 'РљР°Р·Р°РЅСЊ');
 
- -- получаем список полетов с переводом на русский (упрощенный запрос, думаю есть более правильный вариант но пока не могу сообразить какой)
+ -- РїРѕР»СѓС‡Р°РµРј СЃРїРёСЃРѕРє РїРѕР»РµС‚РѕРІ СЃ РїРµСЂРµРІРѕРґРѕРј РЅР° СЂСѓСЃСЃРєРёР№ (СѓРїСЂРѕС‰РµРЅРЅС‹Р№ Р·Р°РїСЂРѕСЃ, РґСѓРјР°СЋ РµСЃС‚СЊ Р±РѕР»РµРµ РїСЂР°РІРёР»СЊРЅС‹Р№ РІР°СЂРёР°РЅС‚ РЅРѕ РїРѕРєР° РЅРµ РјРѕРіСѓ СЃРѕРѕР±СЂР°Р·РёС‚СЊ РєР°РєРѕР№)
  SELECT id, (SELECT name FROM cities WHERE label like flights.from_city) AS `from`, (SELECT name FROM cities WHERE label like flights.to_city) AS `to` FROM flights;
 
  -- SELECT id, c.name as `from`, to_city  FROM flights f, cities c WHERE f.from_city like c.label;
